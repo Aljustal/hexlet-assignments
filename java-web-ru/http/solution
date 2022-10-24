@@ -1,0 +1,6 @@
+POST /upload HTTP/1.1
+Host: hexlet.local
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 15
+
+my request body
