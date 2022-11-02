@@ -1,0 +1,61 @@
+plugins {
+  id 'application'
+  id 'com.adarshr.test-logger' version '3.0.0'
+  id 'io.ebean' version '12.11.5'
+}
+
+repositories {
+  mavenCentral()
+}
+
+application {
+  mainClass = 'exercise.App'
+}
+
+//Необходимо для того, что бы сгенерированные Q-классы тоже включались в сборку приложения
+sourceSets.main.java.srcDirs = ['src/main/java', 'build/generated/sources/annotationProcessor/java/main']
+
+dependencies {
+  implementation 'org.apache.tomcat.embed:tomcat-embed-core:8.5.69'
+  implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:8.5.69'
+  implementation 'org.apache.tomcat:tomcat-jsp-api:8.5.69'
+  implementation 'org.apache.tomcat.embed:tomcat-embed-logging-juli:8.5.2'
+  implementation 'org.apache.commons:commons-lang3:3.12.0'
+  implementation 'org.thymeleaf:thymeleaf:3.0.12.RELEASE'
+  implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.0.0'
+  implementation 'com.h2database:h2:1.4.200'
+
+  implementation 'io.ebean:ebean:12.11.5'
+  implementation 'io.ebean:ebean-ddl-generator:12.11.5'
+  implementation 'io.ebean:ebean-querybean:12.11.5'
+  implementation 'io.ebean:ebean-migration:12.11.2'
+  implementation 'io.ebean:ebean-annotation:7.3'
+  // Эта зависимость нужна для работы генератора запросов
+  annotationProcessor 'io.ebean:querybean-generator:12.11.5'
+
+  implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.5'
+  implementation 'javax.activation:activation:1.1.1'
+
+
+  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.0-M1'
+  testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.0-M1'
+  testImplementation 'org.assertj:assertj-core:3.19.0'
+  testImplementation 'org.apache.httpcomponents.client5:httpclient5:5.1'
+}
+
+test {
+  useJUnitPlatform()
+}
+
+testlogger {
+  showStandardStreams = true
+}
+
+task generateMigrations(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  mainClass = 'exercise.MigrationGenerator'
+}
+
+tasks.withType(JavaCompile) {
+  options.encoding = "UTF-8"
+}
