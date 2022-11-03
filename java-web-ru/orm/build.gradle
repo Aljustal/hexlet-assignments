@@ -1,7 +1,7 @@
 plugins {
   id 'application'
   id 'com.adarshr.test-logger' version '3.0.0'
-  id 'io.ebean' version '12.11.5'
+  id 'io.ebean' version '13.6.5'
 }
 
 repositories {

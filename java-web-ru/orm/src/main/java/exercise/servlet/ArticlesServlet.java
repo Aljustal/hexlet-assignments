@@ -87,6 +87,7 @@ public class ArticlesServlet extends HttpServlet {
         // BEGIN
         PagedList<Article> pagedArticles = new QArticle()
                 .setFirstRow(offset)
+                .setMaxRows(articlesPerPage)
                 .orderBy()
                 .id.asc()
                 .findPagedList();
@@ -104,7 +105,10 @@ public class ArticlesServlet extends HttpServlet {
         long id = Long.parseLong(getId(request));
 
         // BEGIN
-        
+        Article article = new QArticle()
+                .id.equalTo(id)
+                .findOne();
+        request.setAttribute("article", article);
         // END
         TemplateEngineUtil.render("articles/show.html", request, response);
     }
@@ -114,7 +118,8 @@ public class ArticlesServlet extends HttpServlet {
                     throws IOException, ServletException {
 
         // BEGIN
-        
+        List<Category> category = new QCategory().findList();
+        request.setAttribute("categories", category);
         // END
         TemplateEngineUtil.render("articles/new.html", request, response);
     }
@@ -129,7 +134,11 @@ public class ArticlesServlet extends HttpServlet {
         String categoryId = request.getParameter("categoryId");
 
         // BEGIN
-        
+        Category category = new QCategory()
+                .id.equalTo(Integer.parseInt(categoryId))
+                .findOne();
+        Article article = new Article(title, body, category);
+        article.save();
         // END
 
         session.setAttribute("flash", "Статья успешно создана");
