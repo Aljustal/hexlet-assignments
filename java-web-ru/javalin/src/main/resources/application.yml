@@ -1,0 +1,15 @@
+# Настройки ORM
+datasource:
+  # Задаём базу данных, к которой будет происходить подключение
+  db:
+    username: ""
+    password: ""
+    url: "jdbc:h2:./hexlet"
+
+# Заполняем базу данных первоначальными данными
+ebean:
+  db:
+    ddl:
+      run: true
+      generate: true
+      seedSql: seed.sql
