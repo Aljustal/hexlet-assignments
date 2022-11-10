@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/application.html}">
+
+<head>
+  <title>Users</title>
+</head>
+<section layout:fragment="content">
+  <div class="container">
+    <a class="btn btn-primary" href="/users/new">Создать нового пользователя</a>
+  </div>
+  <table class="table">
+    <thead>
+      <th>ID</th>
+      <th>Полное имя</th>
+      <th>Email</th>
+    </thead>
+    <tbody>
+      <tr th:each="user : ${users}" th:object="${user}">
+        <td th:text="*{id}"></td>
+        <td>
+          <a th:text="*{firstName} + ' ' + *{lastName}" th:href="@{/users/{id}(id=*{id})}"></a>
+        </td>
+        <td th:text="*{email}"></td>
+      </tr>
+  </table>
+</section>

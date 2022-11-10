@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layouts/application.html}">
+
+<head>
+  <title>Show user</title>
+</head>
+<section layout:fragment="content">
+  <h1>Данные пользователя</h1>
+  <div class="card" th:object="${user}">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" th:text="'Id: ' + *{id}"></li>
+      <li class="list-group-item" th:text="'Полное имя: ' + *{firstName} + ' ' + *{lastName}"></li>
+      <li class="list-group-item" th:text="'Email: ' + *{email}"></li>
+    </ul>
+  </div>
+</section>

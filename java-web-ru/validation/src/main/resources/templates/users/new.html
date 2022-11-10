@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layouts/application.html}">
+
+<head>
+  <title>New user</title>
+</head>
+
+<div class="invalid-feedback" layout:fragment="validation-errors">
+  <ul>
+    <li th:each="error : ${#object}" th:text="${error.getMessage()}"></li>
+  </ul>
+</div>
+
+<section layout:fragment="content">
+  <h1>Создать нового пользователя</h1>
+  <form th:object="${user}" action="/users" method="post">
+    <div class="mb-3">
+      <label>Имя</label>
+      <input
+        class="form-control" th:classappend="${errors.firstName}? 'is-invalid'"
+        type="text" name="firstName" th:value="*{firstName}"
+      >
+      <div layout:fragment="validation-errors" th:object="${errors.firstName}"></div>
+    </div>
+    <div class="mb-3">
+      <label>Фамилия</label>
+      <input
+        class="form-control" th:classappend="${errors.lastName}? 'is-invalid'"
+        type="text" name="lastName" th:value="*{lastName}"
+      >
+      <div layout:fragment="validation-errors" th:object="${errors.lastName}"></div>
+    </div>
+    <div class="mb-3">
+      <label>Почта</label>
+      <input
+        class="form-control" th:classappend="${errors.email}? 'is-invalid'"
+        type="text" name="email" th:value="*{email}"
+      >
+      <div layout:fragment="validation-errors" th:object="${errors.email}"></div>
+    </div>
+    <div class="mb-3">
+      <label>Пароль</label>
+      <input
+        class="form-control" th:classappend="${errors.password}? 'is-invalid'"
+        type="password" name="password" th:value="*{password}"
+      >
+      <div layout:fragment="validation-errors" th:object="${errors.password}"></div>
+    </div>
+    <button class="btn btn-primary" type="submit">Создать</button>
+  </form>
+</section>
