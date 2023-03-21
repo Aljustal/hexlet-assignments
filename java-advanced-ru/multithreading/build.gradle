@@ -1,0 +1,18 @@
+plugins {
+  id 'java'
+}
+
+task checkSolution(type:Exec) {
+  commandLine 'sh', './process', 'image.jpg'
+  standardOutput = new ByteArrayOutputStream()
+
+  doLast {
+    if (standardOutput.toString().length() == 0) {
+      throw new Error("You need to add the solution to the 'process' file")
+    }
+  }
+}
+
+test {
+  dependsOn checkSolution
+}
