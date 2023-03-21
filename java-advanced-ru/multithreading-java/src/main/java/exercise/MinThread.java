@@ -15,7 +15,7 @@ public class MinThread extends Thread {
 
     public void run() {
         min = numbers[0];
-        for (int i = 0; i < numbers.length - 1; i++) {
+        for (int i = 0; i < numbers.length; i++) {
             if (numbers[i] < min) {
                 min = numbers[i];
             }
