@@ -1,0 +1,37 @@
+plugins {
+  id 'org.springframework.boot' version '2.5.5'
+  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+  id 'java'
+  id 'com.adarshr.test-logger' version '3.0.0'
+  id "com.github.johnrengelman.processes" version "0.5.0"
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  // Подключаем модуль Spring WebFlux
+  implementation 'org.springframework.boot:spring-boot-starter-webflux'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  // Для асинхронного неблокирующего доступа к базе даных будем использовать стандарт r2dbc
+  implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+  // Но и jdbc все нужен для работы liquibase
+  implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+  // Устанавливаем реактивный драйвер базы данных H2
+  implementation 'io.r2dbc:r2dbc-h2'
+  runtimeOnly 'com.h2database:h2:1.4.200'
+  implementation 'org.liquibase:liquibase-core'
+  compileOnly 'org.projectlombok:lombok'
+  annotationProcessor 'org.projectlombok:lombok'
+  // Зависимость для тестирования реактивных приложений
+  testImplementation 'io.projectreactor:reactor-test'
+}
+
+test {
+  useJUnitPlatform()
+}
+
+testlogger {
+  showStandardStreams = true
+}

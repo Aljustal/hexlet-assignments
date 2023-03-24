@@ -1,0 +1,24 @@
+server:
+  port: ${PORT:5000}
+
+logging:
+  level:
+    root: INFO
+
+spring:
+  # Конфигурируем работу с базой данной при помощи r2dbc
+  r2dbc:
+    # Указываем драйвер базы данных и путь к файлу БД
+    url: r2dbc:h2:file:///./hexlet
+    username: sa
+    password:
+  # liquibase подключается к базе через jdbc
+  # Для него подключение к БД конфигурируем отдельно
+  # Указываем путь до того же самого файла с базой данных ./hexlet
+  # Обратите внимание, что путь к одному и тому же файлу БД hexlet
+  # в r2dbc и jdbc указывается по-разному
+  liquibase:
+    user: sa
+    password:
+    url: jdbc:h2:file:./hexlet
+    change-log: classpath:db/changelog/changelog-master.xml
