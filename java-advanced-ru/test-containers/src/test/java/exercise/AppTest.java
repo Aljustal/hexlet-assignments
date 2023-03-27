@@ -25,9 +25,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 @AutoConfigureMockMvc
 
 // BEGIN
-// Аннотация позволяет автоматически запускать и останавливать в тестах все контейнеры
 @Testcontainers
-// Все тесты выполняем в транзакции
 @Transactional
 // END
 public class AppTest {
@@ -36,30 +34,18 @@ public class AppTest {
     private MockMvc mockMvc;
 
     // BEGIN
-    // Аннотация отмечает контейнер, который будет автоматически запущен
     @Container
-    // Создаём контейнер с СУБД PostgreSQL
-    // В конструктор передаём имя образа, который будет скачан с Dockerhub
-    // Если не указать версию, будет скачана последняя версия образа
     private static PostgreSQLContainer<?> database = new PostgreSQLContainer<>("postgres")
-            // Создаём базу данных с указанным именем
-            .withDatabaseName("jdbc:postgresql://localhost:5432/hexlet")
-            // Указываем имя пользователя и пароль
+            .withDatabaseName("dbname")
             .withUsername("sa")
             .withPassword("sa")
-            // Скрипт, который будет выполнен при запуске контейнера и наполнит базу тестовыми данными
-            .withInitScript("src/test/resources/init.sql");
+            .withInitScript("init.sql");
 
-    // Так как мы не можем знать заранее, какой URL будет у базы данных в контейнере
-    // Нам потребуется установить это свойство динамически
     @DynamicPropertySource
     public static void properties(DynamicPropertyRegistry registry) {
-        // Устанавливаем URL базы данных
         registry.add("spring.datasource.url", database::getJdbcUrl);
-        // Имя пользователя и пароль для подключения
         registry.add("spring.datasource.username", database::getUsername);
         registry.add("spring.datasource.password", database::getPassword);
-        // Эти значения приложение будет использовать при подключении к базе данных
     }
     // END
 
